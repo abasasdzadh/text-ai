@@ -3,95 +3,292 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Workspace Pro</title>
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#2563eb">
+    <title>text ai</title>
     
-    <!-- لینک‌های آنلاین که ذخیره خواهند شد -->
+    <!-- External Assets -->
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    <link rel="stylesheet" id="prism-theme" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
-        /* استایل‌های نسخه قبلی (V4) در اینجا قرار می‌گیرند */
-        :root { --primary: #2563eb; --bg: #f8fafc; --card: #ffffff; --text: #1e293b; --border: #e2e8f0; }
-        [data-theme="dark"] { --bg: #0f172a; --card: #1e293b; --text: #f1f5f9; --border: #334155; }
-        body { font-family: 'Vazirmatn', sans-serif; background: var(--bg); color: var(--text); margin: 0; display: flex; height: 100vh; overflow: hidden; }
-        aside { width: 280px; background: var(--card); border-left: 1px solid var(--border); display: flex; flex-direction: column; }
-        main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
-        .workspace { flex: 1; overflow-y: auto; padding: 25px; }
-        textarea { width: 100%; height: 180px; padding: 15px; border-radius: 12px; border: 2px solid var(--border); background: var(--bg); color: var(--text); direction: ltr; }
-        .btn-primary { width: 100%; padding: 15px; background: var(--primary); color: white; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; margin-top: 15px; }
-        #output { line-height: 1.8; margin-top: 30px; }
-        .history-item { padding: 12px; border-bottom: 1px solid var(--border); cursor: pointer; }
-        @media (max-width: 800px) { aside { display: none; } }
+        :root {
+            --sidebar-width: 300px;
+            --primary: #2563eb; --primary-hover: #1d4ed8;
+            --bg: #f8fafc; --sidebar-bg: #ffffff; --card: #ffffff;
+            --text-main: #1e293b; --text-muted: #64748b;
+            --border: #e2e8f0; --input-bg: #fcfdfe;
+        }
+
+        [data-theme="dark"] {
+            --bg: #0f172a; --sidebar-bg: #1e293b; --card: #1e293b;
+            --text-main: #f1f5f9; --text-muted: #94a3b8;
+            --border: #334155; --input-bg: #0f172a;
+        }
+
+        * { box-sizing: border-box; transition: background 0.2s, border 0.2s; }
+        body { font-family: 'Vazirmatn', sans-serif; background: var(--bg); color: var(--text-main); margin: 0; display: flex; height: 100vh; overflow: hidden; }
+
+        /* Sidebar - Desktop */
+        aside {
+            width: var(--sidebar-width); background: var(--sidebar-bg);
+            border-left: 1px solid var(--border); display: flex; flex-direction: column;
+            z-index: 1000; transition: right 0.3s ease;
+        }
+
+        .sidebar-header { padding: 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        .history-container { flex: 1; overflow-y: auto; padding: 15px; }
+        .history-card {
+            background: var(--bg); padding: 12px; border-radius: 12px; margin-bottom: 10px;
+            cursor: pointer; border: 1px solid transparent; position: relative;
+        }
+        .history-card:hover { border-color: var(--primary); }
+        .history-card h4 { margin: 0 0 5px 0; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text-main); }
+        .history-card small { color: var(--text-muted); font-size: 11px; }
+        .del-his { position: absolute; left: 10px; top: 12px; color: #ef4444; opacity: 0; transition: 0.2s; }
+        .history-card:hover .del-his { opacity: 1; }
+
+        /* Main Content */
+        main { flex: 1; display: flex; flex-direction: column; overflow: hidden; position: relative; }
+        
+        header { 
+            padding: 15px 25px; background: var(--card); border-bottom: 1px solid var(--border);
+            display: flex; justify-content: space-between; align-items: center;
+        }
+
+        .workspace { flex: 1; overflow-y: auto; padding: 30px; display: flex; flex-direction: column; align-items: center; }
+        .content-width { width: 100%; max-width: 900px; }
+
+        /* Editor Area */
+        .editor-container { background: var(--card); border-radius: 16px; border: 1px solid var(--border); padding: 10px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); margin-bottom: 25px; }
+        textarea {
+            width: 100%; height: 180px; border: none; outline: none; background: var(--input-bg);
+            color: var(--text-main); padding: 15px; font-family: sans-serif; direction: ltr;
+            font-size: 15px; border-radius: 12px; resize: vertical;
+        }
+
+        .editor-actions { display: flex; justify-content: space-between; align-items: center; padding: 8px 5px 0 5px; }
+        .action-group { display: flex; gap: 8px; }
+
+        /* Buttons & Tools */
+        .btn {
+            padding: 8px 16px; border-radius: 8px; border: 1px solid var(--border);
+            background: var(--card); color: var(--text-main); cursor: pointer;
+            font-family: 'Vazirmatn'; font-size: 13px; display: flex; align-items: center; gap: 8px;
+        }
+        .btn-primary { background: var(--primary); color: white; border: none; padding: 10px 25px; font-weight: bold; }
+        .btn-primary:hover { background: var(--primary-hover); }
+        .btn:hover:not(.btn-primary) { background: var(--bg); border-color: var(--primary); }
+
+        /* Output Rendering */
+        #output { line-height: 1.8; margin-top: 20px; color: var(--text-main); }
+        .code-block-wrapper { position: relative; margin: 20px 0; direction: ltr; }
+        pre { border-radius: 12px !important; margin: 0 !important; font-size: 14px; }
+        .code-tools { position: absolute; top: 10px; left: 10px; display: flex; gap: 5px; z-index: 10; }
+        code:not(pre code) { background: #fee2e2; color: #b91c1c; padding: 2px 6px; border-radius: 6px; font-weight: bold; cursor: pointer; }
+        [data-theme="dark"] code:not(pre code) { background: #452a2a; color: #f87171; }
+
+        /* Responsive Mobile */
+        .mobile-toggle { display: none; font-size: 20px; cursor: pointer; }
+        .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); display: none; z-index: 999; backdrop-filter: blur(2px); }
+
+        @media (max-width: 900px) {
+            aside { position: fixed; right: -300px; height: 100%; box-shadow: -10px 0 20px rgba(0,0,0,0.1); }
+            aside.open { right: 0; }
+            .overlay.active { display: block; }
+            .mobile-toggle { display: block; }
+            .workspace { padding: 15px; }
+        }
     </style>
 </head>
 <body>
-    <aside>
-        <div style="padding: 20px; border-bottom: 1px solid var(--border);"><h4>تاریخچه متون</h4></div>
-        <div id="historyList"></div>
+
+    <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+    <!-- Sidebar: History -->
+    <aside id="sidebar">
+        <div class="sidebar-header">
+            <h3 style="margin: 0; font-size: 16px;"><i class="fas fa-clock-rotate-left"></i> تاریخچه </h3>
+            <button class="btn mobile-only" onclick="toggleSidebar()"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="history-container" id="historyList">
+            <!-- Items injected by JS -->
+        </div>
+        <div style="padding: 15px; border-top: 1px solid var(--border);">
+            <button class="btn" style="width: 100%; justify-content: center;" onclick="clearAllHistory()">
+                <i class="fas fa-trash-sweep"></i> پاکسازی کامل تاریخچه
+            </button>
+        </div>
     </aside>
+
+    <!-- Main Workspace -->
     <main>
-        <header style="padding: 15px 25px; background: var(--card); border-bottom: 1px solid var(--border); display: flex; justify-content: space-between;">
-            <h3 style="margin:0">AI Persian Tool</h3>
-            <button onclick="toggleTheme()" class="btn-primary" style="width:auto; margin:0; padding: 8px 15px;">تغییر تم</button>
+        <header>
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <div class="mobile-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></div>
+                <h2 style="margin: 0; font-size: 18px; color: var(--primary);">textai</h2>
+            </div>
+            <div class="action-group">
+                <select id="codeFont" onchange="updateCodeFont()" class="btn">
+                    <option value="monospace">Font code</option>
+                    <option value="'Fira Code', monospace">Fira Code</option>
+                    <option value="'JetBrains Mono', monospace">JetBrains Mono</option>
+                </select>
+                <button class="btn" onclick="toggleTheme()" id="themeBtn"><i class="fas fa-moon"></i></button>
+            </div>
         </header>
+
         <div class="workspace">
-            <textarea id="mainInput" placeholder="متن را اینجا قرار دهید..."></textarea>
-            <button class="btn-primary" onclick="process()">پردازش و ذخیره آفلاین</button>
-            <div id="output"></div>
+            <div class="content-width">
+                <div class="editor-container">
+                    <textarea id="mainInput" placeholder="خروجی جمینای را اینجا پیست کنید..."></textarea>
+                    <div class="editor-actions">
+                        <div class="action-group">
+                            <button class="btn" onclick="copyInput()"><i class="far fa-copy"></i></button>
+                            <button class="btn" onclick="clearInput()"><i class="fas fa-eraser"></i></button>
+                        </div>
+                        <button class="btn btn-primary" onclick="processAndSave()">
+                            <i class="fas fa-bolt"></i> پردازش و نمایش
+                        </button>
+                    </div>
+                </div>
+
+                <div id="output" class="content-width">
+                    <!-- Rendered content here -->
+                </div>
+            </div>
         </div>
     </main>
 
 <script>
-    // منطق جاوااسکریپت (مشابه V4)
-    function process() {
+    const extMap = { 'javascript': 'js', 'python': 'py', 'html': 'html', 'css': 'css', 'json': 'json', 'bash': 'sh', 'sql': 'sql' };
+
+    window.onload = () => {
+        loadSettings();
+        refreshHistoryUI();
+        const last = JSON.parse(localStorage.getItem('ai_last_session'));
+        if(last) { document.getElementById('mainInput').value = last; render(last); }
+    };
+
+    function toggleSidebar() {
+        document.getElementById('sidebar').classList.toggle('open');
+        document.getElementById('overlay').classList.toggle('active');
+    }
+
+    function processAndSave() {
         const val = document.getElementById('mainInput').value;
-        if(!val) return;
-        document.getElementById('output').innerHTML = marked.parse(val);
+        if(!val.trim()) return;
+
+        let history = JSON.parse(localStorage.getItem('ai_v4_history') || '[]');
+        const title = val.substring(0, 50).replace(/\n/g, ' ') + '...';
+        
+        // Add to history if unique
+        if(history.length === 0 || history[0].content !== val) {
+            history.unshift({ id: Date.now(), title, content: val, time: new Date().toLocaleTimeString('fa-IR') });
+            if(history.length > 30) history.pop();
+            localStorage.setItem('ai_v4_history', JSON.stringify(history));
+            refreshHistoryUI();
+        }
+        
+        localStorage.setItem('ai_last_session', JSON.stringify(val));
+        render(val);
+    }
+
+    function render(text) {
+        const out = document.getElementById('output');
+        out.innerHTML = marked.parse(text);
+
+        // Code blocks enhancements
+        document.querySelectorAll('pre').forEach(pre => {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'code-block-wrapper';
+            pre.parentNode.insertBefore(wrapper, pre);
+            wrapper.appendChild(pre);
+
+            const lang = Array.from(pre.querySelector('code').classList)
+                .find(c => c.startsWith('language-'))?.replace('language-', '') || 'txt';
+
+            const tools = document.createElement('div');
+            tools.className = 'code-tools';
+            tools.innerHTML = `
+                <button class="btn" style="padding:4px 8px; font-size:11px;" onclick="copyRaw(this)"><i class="far fa-copy"></i></button>
+                <button class="btn" style="padding:4px 8px; font-size:11px;" onclick="downloadRaw(this, '${lang}')"><i class="fas fa-download"></i></button>
+            `;
+            wrapper.appendChild(tools);
+        });
+
+        // Inline codes
+        document.querySelectorAll('code:not(pre code)').forEach(el => {
+            el.onclick = function() {
+                navigator.clipboard.writeText(this.innerText);
+                showToast('کپی شد!');
+            }
+        });
+
         Prism.highlightAll();
-        saveToHistory(val);
+        updateCodeFont();
     }
 
-    function saveToHistory(text) {
-        let history = JSON.parse(localStorage.getItem('ai_v5_history') || '[]');
-        history.unshift({ title: text.substring(0, 30) + '...', content: text });
-        localStorage.setItem('ai_v5_history', JSON.stringify(history.slice(0, 15)));
-        renderHistory();
-    }
-
-    function renderHistory() {
+    function refreshHistoryUI() {
         const list = document.getElementById('historyList');
-        const history = JSON.parse(localStorage.getItem('ai_v5_history') || '[]');
-        list.innerHTML = history.map(item => `<div class="history-item" onclick="loadHistory('${encodeURIComponent(item.content)}')">${item.title}</div>`).join('');
+        const history = JSON.parse(localStorage.getItem('ai_v4_history') || '[]');
+        list.innerHTML = history.length ? '' : '<p style="text-align:center; color:var(--text-muted); font-size:13px;">هنوز متنی پردازش نشده است.</p>';
+
+        history.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'history-card';
+            card.onclick = () => { document.getElementById('mainInput').value = item.content; render(item.content); if(window.innerWidth < 900) toggleSidebar(); };
+            card.innerHTML = `
+                <h4>${item.title}</h4>
+                <small><i class="far fa-clock"></i> ${item.time}</small>
+                <i class="fas fa-trash del-his" onclick="deleteHistoryItem(event, ${item.id})"></i>
+            `;
+            list.appendChild(card);
+        });
     }
 
-    function loadHistory(content) {
-        document.getElementById('mainInput').value = decodeURIComponent(content);
-        process();
+    function deleteHistoryItem(e, id) {
+        e.stopPropagation();
+        let history = JSON.parse(localStorage.getItem('ai_v4_history') || '[]');
+        history = history.filter(i => i.id !== id);
+        localStorage.setItem('ai_v4_history', JSON.stringify(history));
+        refreshHistoryUI();
+    }
+
+    function clearAllHistory() {
+        Swal.fire({ title: 'مطمئن هستید؟', text: "کل تاریخچه پاک خواهد شد!", icon: 'warning', showCancelButton: true, confirmButtonText: 'بله، پاک کن' })
+        .then(res => { if(res.isConfirmed) { localStorage.removeItem('ai_v4_history'); refreshHistoryUI(); } });
     }
 
     function toggleTheme() {
         const theme = document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
         document.body.setAttribute('data-theme', theme);
         localStorage.setItem('theme', theme);
+        document.getElementById('themeBtn').innerHTML = theme === 'dark' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
     }
 
-    // ثبت سرویس ورکر
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('sw.js').then(reg => {
-                console.log('SW Registered with scope:', reg.scope);
-            });
-        });
+    function loadSettings() {
+        const theme = localStorage.getItem('theme') || 'light';
+        document.body.setAttribute('data-theme', theme);
+        document.getElementById('themeBtn').innerHTML = theme === 'dark' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
     }
 
-    renderHistory();
-    if(localStorage.getItem('theme') === 'dark') document.body.setAttribute('data-theme', 'dark');
+    function updateCodeFont() {
+        const font = document.getElementById('codeFont').value;
+        document.querySelectorAll('pre, code').forEach(el => el.style.fontFamily = font);
+    }
+
+    function copyInput() { navigator.clipboard.writeText(document.getElementById('mainInput').value); showToast('کپی شد'); }
+    function clearInput() { document.getElementById('mainInput').value = ''; }
+    function copyRaw(btn) { navigator.clipboard.writeText(btn.closest('.code-block-wrapper').querySelector('code').innerText); showToast('کد کپی شد'); }
+    function downloadRaw(btn, lang) {
+        const code = btn.closest('.code-block-wrapper').querySelector('code').innerText;
+        const blob = new Blob([code], { type: 'text/plain' });
+        const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `script.${extMap[lang] || 'txt'}`; a.click();
+    }
+    function showToast(msg) { Swal.fire({ title: msg, icon: 'success', toast: true, position: 'top-end', timer: 2000, showConfirmButton: false }); }
 </script>
 </body>
-</html>
+            </html>
