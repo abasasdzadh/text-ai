@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Workspace Pro</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2563eb">
+    
+    <!-- لینک‌های آنلاین که ذخیره خواهند شد -->
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+        /* استایل‌های نسخه قبلی (V4) در اینجا قرار می‌گیرند */
+        :root { --primary: #2563eb; --bg: #f8fafc; --card: #ffffff; --text: #1e293b; --border: #e2e8f0; }
+        [data-theme="dark"] { --bg: #0f172a; --card: #1e293b; --text: #f1f5f9; --border: #334155; }
+        body { font-family: 'Vazirmatn', sans-serif; background: var(--bg); color: var(--text); margin: 0; display: flex; height: 100vh; overflow: hidden; }
+        aside { width: 280px; background: var(--card); border-left: 1px solid var(--border); display: flex; flex-direction: column; }
+        main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+        .workspace { flex: 1; overflow-y: auto; padding: 25px; }
+        textarea { width: 100%; height: 180px; padding: 15px; border-radius: 12px; border: 2px solid var(--border); background: var(--bg); color: var(--text); direction: ltr; }
+        .btn-primary { width: 100%; padding: 15px; background: var(--primary); color: white; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; margin-top: 15px; }
+        #output { line-height: 1.8; margin-top: 30px; }
+        .history-item { padding: 12px; border-bottom: 1px solid var(--border); cursor: pointer; }
+        @media (max-width: 800px) { aside { display: none; } }
+    </style>
+</head>
+<body>
+    <aside>
+        <div style="padding: 20px; border-bottom: 1px solid var(--border);"><h4>تاریخچه متون</h4></div>
+        <div id="historyList"></div>
+    </aside>
+    <main>
+        <header style="padding: 15px 25px; background: var(--card); border-bottom: 1px solid var(--border); display: flex; justify-content: space-between;">
+            <h3 style="margin:0">AI Persian Tool</h3>
+            <button onclick="toggleTheme()" class="btn-primary" style="width:auto; margin:0; padding: 8px 15px;">تغییر تم</button>
+        </header>
+        <div class="workspace">
+            <textarea id="mainInput" placeholder="متن را اینجا قرار دهید..."></textarea>
+            <button class="btn-primary" onclick="process()">پردازش و ذخیره آفلاین</button>
+            <div id="output"></div>
+        </div>
+    </main>
+
+<script>
+    // منطق جاوااسکریپت (مشابه V4)
+    function process() {
+        const val = document.getElementById('mainInput').value;
+        if(!val) return;
+        document.getElementById('output').innerHTML = marked.parse(val);
+        Prism.highlightAll();
+        saveToHistory(val);
+    }
+
+    function saveToHistory(text) {
+        let history = JSON.parse(localStorage.getItem('ai_v5_history') || '[]');
+        history.unshift({ title: text.substring(0, 30) + '...', content: text });
+        localStorage.setItem('ai_v5_history', JSON.stringify(history.slice(0, 15)));
+        renderHistory();
+    }
+
+    function renderHistory() {
+        const list = document.getElementById('historyList');
+        const history = JSON.parse(localStorage.getItem('ai_v5_history') || '[]');
+        list.innerHTML = history.map(item => `<div class="history-item" onclick="loadHistory('${encodeURIComponent(item.content)}')">${item.title}</div>`).join('');
+    }
+
+    function loadHistory(content) {
+        document.getElementById('mainInput').value = decodeURIComponent(content);
+        process();
+    }
+
+    function toggleTheme() {
+        const theme = document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        document.body.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
+    }
+
+    // ثبت سرویس ورکر
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('sw.js').then(reg => {
+                console.log('SW Registered with scope:', reg.scope);
+            });
+        });
+    }
+
+    renderHistory();
+    if(localStorage.getItem('theme') === 'dark') document.body.setAttribute('data-theme', 'dark');
+</script>
+</body>
+</html>
