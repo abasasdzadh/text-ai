@@ -1,6 +1,7 @@
 {
-  "name": "AI Persian Workspace Pro",
-  "short_name": "AI Tool",
+  "name": "text ai workspace",
+  "short_name": "textai",
+  "description": "ابزار مدیریت متون هوش مصنوعی",
   "start_url": "index.html",
   "display": "standalone",
   "background_color": "#f8fafc",
@@ -9,7 +10,8 @@
     {
       "src": "https://cdn-icons-png.flaticon.com/512/2592/2592216.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }
