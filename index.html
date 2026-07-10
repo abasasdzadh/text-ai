@@ -18,18 +18,18 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
-        :root {
+        :root {#7F7F7F
             --sidebar-width: 300px;
-            --primary: #2563eb; --primary-hover: #1d4ed8;
+            --primary: #8D8D8D; --primary-hover: #778688;
             --bg: #f8fafc; --sidebar-bg: #ffffff; --card: #ffffff;
-            --text-main: #1e293b; --text-muted: #64748b;
-            --border: #e2e8f0; --input-bg: #fcfdfe;
+            --text-main: #555555; --text-muted: #9E9E9E;
+            --border: #B0B0B0; --input-bg: #f8fafc;
         }
 
         [data-theme="dark"] {
-            --bg: #0f172a; --sidebar-bg: #1e293b; --card: #1e293b;
-            --text-main: #f1f5f9; --text-muted: #94a3b8;
-            --border: #334155; --input-bg: #0f172a;
+            --bg: #1B1B1B; --sidebar-bg: #1F1F1F; --card: #1B1B1B;
+            --text-main: #BCBCBC; --text-muted: #6F6F6F;
+            --border: #434343; --input-bg: #1F1F1F;
         }
 
         * { box-sizing: border-box; transition: background 0.2s, border 0.2s; }
@@ -91,8 +91,8 @@
         .code-block-wrapper { position: relative; margin: 20px 0; direction: ltr; }
         pre { border-radius: 12px !important; margin: 0 !important; font-size: 14px; }
         .code-tools { position: absolute; top: 10px; left: 10px; display: flex; gap: 5px; z-index: 10; }
-        code:not(pre code) { background: #fee2e2; color: #b91c1c; padding: 2px 6px; border-radius: 6px; font-weight: bold; cursor: pointer; }
-        [data-theme="dark"] code:not(pre code) { background: #452a2a; color: #f87171; }
+        code:not(pre code) { background: #DEDEDED4; color: #7F7F7F; padding: 2px 6px; border-radius: 6px; font-weight: bold; cursor: pointer; }
+        [data-theme="dark"] code:not(pre code) { background: #464646CF; color: #7F7F7F; }
 
         /* Responsive Mobile */
         .mobile-toggle { display: none; font-size: 20px; cursor: pointer; }
