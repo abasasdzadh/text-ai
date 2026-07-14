@@ -15,6 +15,14 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
+      - name: Prepare Web Assets
+        run: |
+          mkdir www
+          cp index.html www/
+          cp manifest.json www/
+          # اگر فایل‌های دیگری مثل sw.js یا پوشه assets دارید، اینجا اضافه کنید:
+          # cp sw.js www/ || true
+
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
