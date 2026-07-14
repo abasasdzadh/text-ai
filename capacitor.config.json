@@ -1,6 +1,5 @@
 {
   "appId": "com.textai.workspace",
   "appName": "Text AI",
-  "webDir": ".",
-  "bundledWebRuntime": false
+  "webDir": "www"
 }
