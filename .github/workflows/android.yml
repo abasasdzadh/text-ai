@@ -1,5 +1,6 @@
 name: Build Android APK
 on: [push]
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -17,10 +18,10 @@ jobs:
 
       - name: Prepare Web Assets
         run: |
-          mkdir www
+          mkdir -p www
           cp index.html www/
           cp manifest.json www/
-          # اگر فایل‌های دیگری مثل sw.js یا پوشه assets دارید، اینجا اضافه کنید:
+          # اگر فایل‌های دیگری مثل sw.js دارید این خط را فعال کنید:
           # cp sw.js www/ || true
 
       - name: Setup Java
@@ -34,6 +35,25 @@ jobs:
           npx cap add android
           npx cap sync android
 
+      - name: Fix Font Scaling (Lock to 100%)
+        run: |
+          # مسیر فایل MainActivity با توجه به appId شما
+          FILE_PATH="android/app/src/main/java/com/textai/workspace/MainActivity.java"
+          
+          # اضافه کردن ایمپورت WebView
+          sed -i '/import com.getcapacitor.BridgeActivity;/a import android.webkit.WebView;' $FILE_PATH
+          
+          # تزریق کد قفل کردن زوم متن در کلاس MainActivity
+          sed -i '/public class MainActivity extends BridgeActivity {}/c \
+          public class MainActivity extends BridgeActivity {\
+              @Override\
+              public void onStart() {\
+                  super.onStart();\
+                  WebView webView = this.getBridge().getWebView();\
+                  webView.getSettings().setTextZoom(100);\
+              }\
+          }' $FILE_PATH
+
       - name: Build APK
         run: |
           cd android
@@ -43,5 +63,5 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: Text-AI-Debug-APK
+          name: Text-AI-Fixed-Font-APK
           path: android/app/build/outputs/apk/debug/app-debug.apk
