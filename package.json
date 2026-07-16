@@ -3,12 +3,18 @@
   "version": "1.0.0",
   "description": "Text AI Workspace",
   "main": "index.html",
+  "type": "module",
   "scripts": {
-    "build": "echo 'No build step needed'"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "dependencies": {
     "@capacitor/android": "^6.0.0",
     "@capacitor/cli": "^6.0.0",
     "@capacitor/core": "^6.0.0"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0"
   }
 }
