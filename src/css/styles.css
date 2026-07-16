@@ -177,7 +177,7 @@ pre { border-radius: 0 0 11px 11px !important; margin: 0 !important; font-size: 
 code:not(pre code) { 
     background: #DEDEDED4; 
     color: #7F7F7F; 
-    padding: 1px 2px; 
+    padding: 1px 1px; 
     border-radius: 4px; 
     font-size: 0.85em; 
     font-weight: bold; 
