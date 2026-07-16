@@ -2,7 +2,7 @@ name: Build Android APK
 
 on:
   push:
-    branches: [ "main", "master" ] # در صورت نیاز نام برنچ خود را اینجا وارد کنید
+    branches: [ "main", "master" ] # نام برنچ خود را در صورت نیاز اصلاح کنید
 
 jobs:
   build:
@@ -26,7 +26,7 @@ jobs:
         with:
           node-version: '20'
 
-      # ۴. نصب کتابخانه‌ها و وابستگی‌های وب پروژه
+      # ۴. نصب کتابخانه‌ها و وابستگی‌های پروژه
       - name: Install Dependencies
         run: npm install
 
@@ -34,18 +34,25 @@ jobs:
       - name: Build Web App
         run: npm run build
 
-      # ۶. انتقال فایل‌های وب بیلد شده به داخل پوشه‌های نیتیو اندروید
+      # ۶. اضافه کردن خودکار پلتفرم اندروید در صورت عدم وجود پوشه
+      - name: Add Android Platform if missing
+        run: |
+          if [ ! -d "android" ]; then
+            npx cap add android
+          fi
+
+      # ۷. همگام‌سازی فایل‌های وب بیلد شده با اندروید
       - name: Sync Capacitor
         run: npx cap sync android
 
-      # ۷. بیلد نهایی و ساخت فایل نصب اندروید (APK)
+      # ۸. بیلد نهایی و ساخت فایل نصب اندروید (APK)
       - name: Build Android APK
         run: |
           cd android
           chmod +x gradlew
           ./gradlew assembleDebug
 
-      # ۸. آپلود فایل نهایی بیلد شده جهت دانلود شما
+      # ۹. آپلود فایل نهایی بیلد شده جهت دانلود شما
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
