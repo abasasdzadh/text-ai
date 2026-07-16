@@ -15,7 +15,7 @@
 * { box-sizing: border-box; transition: background 0.2s, border 0.2s; }
 body { font-family: 'Vazirmatn', sans-serif; background: var(--bg); color: var(--text-main); margin: 0; display: flex; height: 100vh; overflow: hidden; }
 
-/* اسکرول‌بار فعال */
+/* استایل‌های شخصی‌سازی اسکرول‌بار هماهنگ با تم فعال */
 ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
@@ -38,6 +38,7 @@ aside {
     z-index: 1000; transition: right 0.3s ease, width 0.3s ease, border-left-width 0.3s ease;
 }
 
+/* تعریف حالت بسته‌شدن سایدبار در دسکتاپ */
 @media (min-width: 901px) {
     aside.closed {
         width: 0;
@@ -46,6 +47,7 @@ aside {
     }
 }
 
+/* هم‌تراز کردن ارتفاع هدر سایدبار با هدر اصلی */
 .sidebar-header { 
     height: 70px; 
     padding: 0 20px; 
@@ -63,6 +65,7 @@ aside {
 .history-card h4 { margin: 0 0 5px 0; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text-main); }
 .history-card small { color: var(--text-muted); font-size: 11px; }
 
+/* هم‌تراز کردن دکمه حذف تاریخچه با بخش پایینی و ساعت */
 .del-his { 
     position: absolute; 
     left: 12px; 
@@ -77,6 +80,7 @@ aside {
 /* Main Content */
 main { flex: 1; display: flex; flex-direction: column; overflow: hidden; position: relative; }
 
+/* هم‌تراز کردن ارتفاع هدر اصلی با سایدبار */
 header { 
     height: 70px;
     padding: 0 25px; 
@@ -87,6 +91,7 @@ header {
     align-items: center;
 }
 
+/* حذف پدینگ بالا برای جلوگیری از ایجاد Gap در هدر چسبان کادر کد */
 .workspace { 
     flex: 1; 
     overflow-y: auto; 
@@ -96,12 +101,14 @@ header {
     align-items: center; 
 }
 
+/* انتقال فاصله ۳۰ پیکسلی به کانتینر اصلی محتوا جهت پایداری Sticky */
 .content-width { 
     width: 100%; 
     max-width: 900px; 
     margin-top: 30px; 
 }
 
+/* Editor Area */
 .editor-container { background: var(--card); border-radius: 16px; border: 1px solid var(--border); padding: 10px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); margin-bottom: 25px; }
 textarea {
     width: 100%; height: 180px; border: none; outline: none; background: var(--input-bg);
@@ -112,6 +119,7 @@ textarea {
 .editor-actions { display: flex; justify-content: space-between; align-items: center; padding: 8px 5px 0 5px; }
 .action-group { display: flex; gap: 8px; }
 
+/* Buttons & Tools */
 .btn {
     padding: 8px 16px; border-radius: 8px; border: 1px solid var(--border);
     background: var(--card); color: var(--text-main); cursor: pointer;
@@ -121,17 +129,20 @@ textarea {
 .btn-primary:hover { background: var(--primary-hover); }
 .btn:hover:not(.btn-primary) { background: var(--bg); border-color: var(--primary); }
 
+/* Output Rendering */
 #output { line-height: 1.8; margin-top: 20px; color: var(--text-main); }
 
+/* کانتینر اصلی کادرهای کد */
 .code-block-wrapper { 
     position: relative; 
     margin: 20px 0; 
     direction: ltr; 
     border: 1px solid var(--border);
     border-radius: 12px;
-    background: #1d1d1d;
+    background: #1d1d1d; /* همخوانی با رنگ تم تیره ادیتور */
 }
 
+/* هدر چسبان و ثابت در بالای کادر کد به سبک Google AI Studio */
 .code-header-bar {
     position: sticky;
     top: 0;
@@ -149,6 +160,7 @@ textarea {
     border-radius: 11px 11px 0 0;
 }
 
+/* استایل‌های مربوط به جمع شدن کادر کد */
 .code-block-wrapper.collapsed pre {
     display: none !important;
 }
@@ -156,12 +168,27 @@ textarea {
     display: none !important;
 }
 
+/* اعمال فونت پیش‌فرض به تمام بخش‌های کد به صورت سراسری */
 pre, code, pre *, code * { font-family: 'Vazirmatn', sans-serif !important; }
 
 pre { border-radius: 0 0 11px 11px !important; margin: 0 !important; font-size: 14px; }
-code:not(pre code) { background: #DEDEDED4; color: #7F7F7F; padding: 2px 6px; border-radius: 6px; font-weight: bold; cursor: pointer; }
-[data-theme="dark"] code:not(pre code) { background: #464646CF; color: #7F7F7F; }
 
+/* اصلاح هایلایت کلمات و کدهای درون‌خطی به ابعاد و استایل کاملاً استاندارد و ظریف */
+code:not(pre code) { 
+    background: #e2e8f0; 
+    color: #475569; 
+    padding: 2px 5px; 
+    border-radius: 4px; 
+    font-size: 0.85em; 
+    font-weight: 600; 
+    cursor: pointer; 
+}
+[data-theme="dark"] code:not(pre code) { 
+    background: #334155; 
+    color: #cbd5e1; 
+}
+
+/* پیش‌نمایش رندر شده کد HTML */
 .html-preview-container {
     border-top: 1px solid var(--border);
     border-radius: 0 0 11px 11px;
@@ -169,6 +196,7 @@ code:not(pre code) { background: #DEDEDED4; color: #7F7F7F; padding: 2px 6px; bo
     background: #ffffff;
 }
 
+/* Responsive Mobile */
 .mobile-toggle { display: block; font-size: 20px; cursor: pointer; }
 .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); display: none; z-index: 999; backdrop-filter: blur(2px); }
 
@@ -176,5 +204,7 @@ code:not(pre code) { background: #DEDEDED4; color: #7F7F7F; padding: 2px 6px; bo
     aside { position: fixed; right: -300px; height: 100%; box-shadow: -10px 0 20px rgba(0,0,0,0.1); }
     aside.open { right: 0; }
     .overlay.active { display: block; }
-    .workspace { padding: 15px; }
+    /* برطرف کردن Gap پدینگ بالای ویرایشگر در موبایل جهت پایداری Sticky */
+    .workspace { padding: 0 15px 15px 15px; }
+    .content-width { margin-top: 15px; }
 }
