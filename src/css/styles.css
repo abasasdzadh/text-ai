@@ -174,15 +174,19 @@ pre, code, pre *, code * { font-family: 'Vazirmatn', sans-serif !important; }
 pre { border-radius: 0 0 11px 11px !important; margin: 0 !important; font-size: 14px; }
 
 /* اصلاح و بازگرداندن هایلایت به رنگ اصلی برنامه به همراه پدینگ و شعاع بسیار فشرده‌تر و مماس با متن */
-code:not(pre code) { 
-    background: #DEDEDED4; 
-    color: #7F7F7F; 
-    padding: 1px 1px; 
-    border-radius: 4px; 
-    font-size: 0.85em; 
-    font-weight: bold; 
-    cursor: pointer; 
+code:not(pre code) {
+    display: inline-block;
+    background: #DEDEDED4;
+    color: #7F7F7F;
+    padding: 0 3px;
+    line-height: 1.1;
+    border-radius: 3px;
+    font-size: 0.85em;
+    font-weight: bold;
+    vertical-align: baseline;
+    cursor: pointer;
 }
+
 [data-theme="dark"] code:not(pre code) { 
     background: #464646CF; 
     color: #7F7F7F; 
