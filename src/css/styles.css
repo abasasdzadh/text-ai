@@ -140,21 +140,21 @@ textarea {
 #output ol { list-style-type: decimal; }
 #output li { margin-top: 4px; }
 
-/* --- استایل لیست‌های انجام کار تیک‌دار مارک‌داون (Task Lists) --- */
-#output .task-list-item {
+/* --- استایل لیست‌های انجام کار تیک‌دار مارک‌داون با انتخابگر هوشمند :has --- */
+#output li:has(input[type="checkbox"]) {
     list-style-type: none !important; /* غیرفعال کردن بالت گلوله‌ای پیش‌فرض */
     padding-right: 0 !important;
     padding-left: 0 !important;
 }
-#output .task-list-item input[type="checkbox"] {
+#output li:has(input[type="checkbox"]) input[type="checkbox"] {
     margin: 0 0.5em 0.25em 0.5em;
     vertical-align: middle;
 }
-html[dir="rtl"] #output .task-list-item input[type="checkbox"] {
+html[dir="rtl"] #output li:has(input[type="checkbox"]) input[type="checkbox"] {
     margin-left: 0.5em;
     margin-right: 0;
 }
-html[dir="ltr"] #output .task-list-item input[type="checkbox"] {
+html[dir="ltr"] #output li:has(input[type="checkbox"]) input[type="checkbox"] {
     margin-right: 0.5em;
     margin-left: 0;
 }
@@ -234,7 +234,7 @@ pre, code, pre *, code * { font-family: 'Vazirmatn', sans-serif !important; }
 
 pre { border-radius: 0 0 11px 11px !important; margin: 0 !important; font-size: 14px; }
 
-/* اصلاح و بازگرداندن هایلایت به رنگ اصلی برنامه به همراه پدینگ و شعاع بسیار فشرده‌تر و مماس با متن */
+/* بازگرداندن هایلایت به رنگ تم اصلی برنامه به همراه پدینگ و شعاع بسیار فشرده‌تر و مماس با متن */
 code:not(pre code) { 
     background: #DEDEDED4; 
     color: #7F7F7F; 
