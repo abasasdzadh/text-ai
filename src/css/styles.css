@@ -173,19 +173,19 @@ pre, code, pre *, code * { font-family: 'Vazirmatn', sans-serif !important; }
 
 pre { border-radius: 0 0 11px 11px !important; margin: 0 !important; font-size: 14px; }
 
-/* اصلاح هایلایت کلمات و کدهای درون‌خطی به ابعاد و استایل کاملاً استاندارد و ظریف */
+/* اصلاح و بازگرداندن هایلایت به رنگ اصلی برنامه به همراه پدینگ و شعاع بسیار فشرده‌تر و مماس با متن */
 code:not(pre code) { 
-    background: #e2e8f0; 
-    color: #475569; 
-    padding: 2px 5px; 
+    background: #DEDEDED4; 
+    color: #7F7F7F; 
+    padding: 1px 4px; 
     border-radius: 4px; 
     font-size: 0.85em; 
-    font-weight: 600; 
+    font-weight: bold; 
     cursor: pointer; 
 }
 [data-theme="dark"] code:not(pre code) { 
-    background: #334155; 
-    color: #cbd5e1; 
+    background: #464646CF; 
+    color: #7F7F7F; 
 }
 
 /* پیش‌نمایش رندر شده کد HTML */
