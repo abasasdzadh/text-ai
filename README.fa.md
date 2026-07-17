@@ -1,7 +1,7 @@
 # ⚡ محیط کاری متون هوش مصنوعی (Text AI)
 
 [🇬🇧 **English / انگلیسی**](README.md) | 
-[🚀 **Live Web App **](https://abasasdzadh.github.io/text-ai/)
+[🚀 **Live Web App**](https://abasasdzadh.github.io/text-ai/)
 
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
