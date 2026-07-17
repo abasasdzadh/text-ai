@@ -1,6 +1,4 @@
-برای کپی کردن و ذخیره‌ی آسان، کل محتوای فایل راهنما در کادر متنی زیر به صورت خالص قرار گرفته است. شما می‌توانید با فشردن دکمه‌ی کپی در بالای کادر، تمام آن را یک‌جا کپی کرده و در فایلی با نام **`README.md`** در ریشه‌ی پروژه خود ذخیره کنید:
 
-```text
 # ⚡ Text AI Workspace
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
