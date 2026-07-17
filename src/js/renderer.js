@@ -1,57 +1,64 @@
 import { showToast } from './utils.js';
 import { copyRaw, downloadRaw } from './clipboard.js';
 
-// پیکربندی و سفارشی‌سازی Marked جهت خروجی کدهای Mermaid به صورت ۱۰۰٪ خالص و بدون خطای تبدیل کاراکترها
+// پیکربندی و سفارشی‌سازی Marked جهت خروجی کدهای Mermaid و نمایش امن سورس‌کدهای معمولی
 const renderer = new marked.Renderer();
 renderer.code = function(code, lang) {
     if (lang === 'mermaid') {
         return `<div class="mermaid">${code}</div>`; // انتقال مستقیم متن خالص به تگ مِرمید
     }
-    return `<pre><code class="language-${lang}">${code}</code></pre>`;
+    
+    // بسیار مهم: اسکیپ کردن تگ‌های HTML جهت جلوگیری از رندر شدن مستقیم آن‌ها توسط مروگر و غیب شدن کدها
+    const escapedCode = code
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+        
+    return `<pre><code class="language-${lang}">${escapedCode}</code></pre>`;
 };
 marked.use({ renderer });
 
 export function render(text) {
     const out = document.getElementById('output');
     out.innerHTML = marked.parse(text);
-    
+
     // یافتن تگ‌های li حاوی چک‌باکس و اختصاص کلاس اختصاصی جهت حذف دایره بالت در انواع گوشی‌ها
     out.querySelectorAll('li').forEach(li => {
         if (li.querySelector('input[type="checkbox"]')) {
             li.classList.add('task-list-item');
         }
     });
-    
+
     // هماهنگ‌سازی و زیباسازی کادرهای کد معمولی و ابزارها
     document.querySelectorAll('pre').forEach(pre => {
         const wrapper = document.createElement('div');
         wrapper.className = 'code-block-wrapper';
         pre.parentNode.insertBefore(wrapper, pre);
         
-        // پیدا کردن زبان برنامه‌نویسی برای درج در هدر بند
         const codeEl = pre.querySelector('code');
         const lang = Array.from(codeEl.classList)
             .find(c => c.startsWith('language-'))?.replace('language-', '') || 'txt';
-        
-        // ایجاد نوار هدر اختصاصی (Header Bar) برای کادر کد به سبک Google AI Studio
+
         const headerBar = document.createElement('div');
         headerBar.className = 'code-header-bar';
-        
+
         // برچسب نام زبان در سمت چپ
         const langLabel = document.createElement('span');
         langLabel.style.fontWeight = 'bold';
         langLabel.style.textTransform = 'uppercase';
         langLabel.innerText = lang;
         headerBar.appendChild(langLabel);
-        
+
         // بخش نگهدارنده دکمه‌های ابزار در سمت راست
         const tools = document.createElement('div');
         tools.className = 'code-tools-inner';
         tools.style.display = 'flex';
         tools.style.gap = '6px';
         tools.style.alignItems = 'center';
-        
-        // ۱. دکمه پیش‌نمایش فقط برای کدهای html (برگشت به ظاهر مادری کلاس btn)
+
+        // ۱. دکمه پیش‌نمایش فقط برای کدهای html
         if (lang === 'html') {
             const pBtn = document.createElement('button');
             pBtn.className = 'btn btn-tool-preview';
@@ -61,8 +68,8 @@ export function render(text) {
             pBtn.onclick = () => toggleHtmlPreview(pBtn);
             tools.appendChild(pBtn);
         }
-        
-        // ۲. دکمه جمع‌کردن کادر (Collapse) به صورت ارتفاع (برگشت به ظاهر مادری کلاس btn)
+
+        // ۲. دکمه جمع‌کردن کادر (Collapse) به صورت ارتفاع
         const cBtn = document.createElement('button');
         cBtn.className = 'btn btn-tool-collapse';
         cBtn.style.cssText = 'padding:4px 8px; font-size:11px;';
@@ -70,8 +77,8 @@ export function render(text) {
         cBtn.innerHTML = '<i class="fas fa-chevron-up"></i>';
         cBtn.onclick = () => toggleCodeCollapse(cBtn);
         tools.appendChild(cBtn);
-        
-        // ۳. دکمه کپی کد خام (برگشت به ظاهر مادری کلاس btn)
+
+        // ۳. دکمه کپی کد خام
         const cpBtn = document.createElement('button');
         cpBtn.className = 'btn';
         cpBtn.style.cssText = 'padding:4px 8px; font-size:11px;';
@@ -79,8 +86,8 @@ export function render(text) {
         cpBtn.innerHTML = '<i class="far fa-copy"></i>';
         cpBtn.onclick = () => copyRaw(cpBtn);
         tools.appendChild(cpBtn);
-        
-        // ۴. دکمه دانلود فایل (برگشت به ظاهر مادری کلاس btn)
+
+        // ۴. دکمه دانلود فایل
         const dlBtn = document.createElement('button');
         dlBtn.className = 'btn';
         dlBtn.style.cssText = 'padding:4px 8px; font-size:11px;';
@@ -88,7 +95,7 @@ export function render(text) {
         dlBtn.innerHTML = '<i class="fas fa-download"></i>';
         dlBtn.onclick = () => downloadRaw(dlBtn, lang);
         tools.appendChild(dlBtn);
-        
+
         headerBar.appendChild(tools);
         wrapper.appendChild(headerBar);
         wrapper.appendChild(pre);
@@ -97,16 +104,16 @@ export function render(text) {
         pre.style.borderRadius = '0';
         pre.style.margin = '0';
     });
-    
+
     document.querySelectorAll('code:not(pre code)').forEach(el => {
         el.onclick = function() {
             navigator.clipboard.writeText(this.innerText);
             showToast('کپی شد!');
         }
     });
-    
+
     Prism.highlightAll();
-    
+
     // راه‌اندازی و اجرای زنده نمودارهای مِرمید پس از درج تگ‌ها در صفحه
     if (window.mermaid) {
         const isDark = document.body.getAttribute('data-theme') === 'dark';
@@ -122,15 +129,15 @@ export function render(text) {
             console.error("خطا در رندر نمودار مِرمید:", err);
         });
     }
-    
+
     // راه‌اندازی و اجرای موتور رندر فرمول‌های ریاضی و مهندسی LaTeX (KaTeX)
     if (window.renderMathInElement) {
         renderMathInElement(out, {
             delimiters: [
-                { left: '$$', right: '$$', display: true },
-                { left: '$', right: '$', display: false },
-                { left: '\\(', right: '\\)', display: false },
-                { left: '\\[', right: '\\]', display: true }
+                {left: '$$', right: '$$', display: true},
+                {left: '$', right: '$', display: false},
+                {left: '\\(', right: '\\)', display: false},
+                {left: '\\[', right: '\\]', display: true}
             ],
             throwOnError: false
         });
@@ -165,7 +172,7 @@ export function toggleHtmlPreview(btn) {
         const collapseBtnIcon = wrapper.querySelector('.btn-tool-collapse i');
         if (collapseBtnIcon) collapseBtnIcon.className = 'fas fa-chevron-up';
     }
-    
+
     // ایجاد سند ایزوله شده (Iframe) برای رندر بدون تداخل استایل‌ها به سبک گوگل استودیو
     if (!preview) {
         preview = document.createElement('div');
@@ -181,8 +188,8 @@ export function toggleHtmlPreview(btn) {
         preview.appendChild(iframe);
         wrapper.appendChild(preview);
         
-        // کپی متن کد درون سند ایفرم
-        const code = wrapper.querySelector('code').innerText;
+        // دریافت مطمئن سورس خام HTML بدون تگ‌های وب مروگر
+        const code = wrapper.querySelector('code').textContent;
         const iframeDoc = iframe.contentWindow.document;
         iframeDoc.open();
         iframeDoc.write(code);
