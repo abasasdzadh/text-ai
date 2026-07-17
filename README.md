@@ -1,6 +1,7 @@
 # ⚡ Text AI Workspace
 
-[🇮🇷 **Persian / فارسی**](README.fa.md) | [🚀 ** دمو زنده**](https://abasasdzadh.github.io/text-ai/)
+[🇮🇷 **Persian / فارسی**](README.fa.md) 
+[🚀 ** دمو زنده**](https://abasasdzadh.github.io/text-ai/)
 
 
 
