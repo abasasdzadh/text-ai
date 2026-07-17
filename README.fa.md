@@ -1,6 +1,6 @@
 # ⚡ محیط کاری متون هوش مصنوعی (Text AI)
 
-[🇬🇧 **English / انگلیسی**](README.md) | 
+[🇬🇧 **English**](README.md) | 
 [🚀 **Live Web App**](https://abasasdzadh.github.io/text-ai/)
 
 
