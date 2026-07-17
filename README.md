@@ -1,5 +1,7 @@
-
+```markdown
 # ⚡ Text AI Workspace
+
+[🇮🇷 **Persian / فارسی**](README.fa.md)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Build Status](https://img.shields.io/github/actions/workflow/status/abasasdzadh/text-ai/android.yml?branch=main&label=Android%20Build)](https://github.com/abasasdzadh/text-ai/actions)
@@ -9,13 +11,10 @@
 
 **Text AI** is an extensible, modular, and performance-oriented workspace designed to manage, format, and render AI-generated contents and codes. Built with a responsive vanilla-frontend approach and packaged with Vite, it runs as a Progressive Web App (PWA) offline and compiles natively to Android/iOS via Capacitor.
 
-**Text AI** یک محیط کاری ماژولار، توسعه‌پذیر و بهینه‌سازی شده برای مدیریت، فرمت‌دهی و نمایش خروجی‌های متنی و کدهای تولید شده توسط هوش مصنوعی است. این برنامه با رویکرد فرانت‌اند سبک طراحی شده و با باندلر Vite مدیریت می‌شود؛ همچنین به عنوان یک وب‌اپلیکیشن پیش‌رونده (PWA) به صورت آفلاین کار می‌کند و با Capacitor به صورت نیتیو روی اندروید و iOS اجرا می‌گردد.
-
 ---
 
-## 🌟 Key Features / امکانات کلیدی
+## 🌟 Key Features
 
-### 🇬🇧 English:
 - **Full Markdown Support:** Headings, GFM tables with zebra striping, quotes, lists, bold/italic, etc.
 - **GFM Task Lists:** Bulletless interactive checklists compatible with modern and legacy WebViews.
 - **LaTeX Math Rendering:** Complete rendering of inline ($...$) and block ($$...$$) mathematical formulas via KaTeX.
@@ -27,21 +26,9 @@
 - **PWA & Offline Support:** Service worker pre-caching ensures full offline capability.
 - **CI/CD Build Automation:** Push to main branch to automatically trigger GitHub Actions and compile the Android APK.
 
-### 🇮🇷 فارسی:
-- **پشتیبانی کامل از مارک‌داون:** رندر عناوین، جداول زبرا، کادر نقل‌قول، لیست‌ها، متون ضخیم/کج و غیره.
-- **لیست انجام کار (Task Lists):** چک‌باکس‌های تیک‌دار بدون بالت‌های دایره‌ای مزاحم، سازگار با انواع وب‌ویوها.
-- **فرمول‌نویسی ریاضی (LaTeX):** رندر زنده فرمول‌های درون‌خطی و بلوکی مهندسی به کمک موتور پرسرعت KaTeX.
-- **ترسیم زنده نمودارها (Mermaid):** ترسیم فلوچارت‌ها، نمودارهای توالی و معماری‌های متنی به صورت گرافیکی.
-- **پیش‌نمایش زنده HTML:** رندر ایزوله خروجی کدهای HTML درون Iframe مستقل (به سبک Google AI Studio).
-- **هدر چسبان کادرها:** دسترسی همیشگی به دکمه‌های کپی، دانلود، جمع‌کردن و پیش‌نمایش در هنگام اسکرول کدها.
-- **تغییر تراز (RTL / LTR):** امکان چپ‌چین یا راست‌چین کردن کل برنامه با ذخیره خودکار وضعیت در حافظه مروگر.
-- **هارمونی تم تاریک/روشن:** هماهنگی بلادرنگ تم تاریک و روشن در بخش کدهای Prism، اعلان‌ها و نمودارهای Mermaid.
-- **وب‌اپلیکیشن آفلاین (PWA):** کش شدن خودکار فایل‌ها برای کارکرد صددرصد آفلاین برنامه.
-- **بیلد خودکار با اکشن گیت‌هاب:** ساخت خودکار فایل نصب اندروید (APK) بلافاصله پس از ثبت هر کامیت در برنچ اصلی.
-
 ---
 
-## 🛠 Directory Structure / ساختار پوشه‌بندی پروژه
+## 🛠 Directory Structure
 
 ```text
 text-ai/
@@ -65,27 +52,27 @@ text-ai/
 
 ---
 
-## 💻 Quick Start & Development / راهنمای نصب و توسعه
+## 💻 Quick Start & Development
 
-### 1. Clone the repository / شبیه‌سازی مخزن:
+### 1. Clone the repository:
 ```bash
 git clone https://github.com/abasasdzadh/text-ai.git
 cd text-ai
 ```
 
-### 2. Install dependencies / نصب کتابخانه‌های پیش‌نیاز:
+### 2. Install dependencies:
 Make sure you have [Node.js](https://nodejs.org/) installed.
 ```bash
 npm install
 ```
 
-### 3. Run development server / اجرای سرور محلی توسعه:
+### 3. Run development server:
 ```bash
 npm run dev
 ```
 The server will boot up locally at `http://localhost:3000`.
 
-### 4. Build for Web and PWA / خروجی گرفتن برای وب و PWA:
+### 4. Build for Web and PWA:
 ```bash
 npm run build
 ```
@@ -93,16 +80,16 @@ This command compiles and optimizes all modular files into the `www` folder.
 
 ---
 
-## 📱 Mobile App Compilation / خروجی گرفتن برای اندروید و iOS
+## 📱 Mobile App Compilation
 
 This workspace is fully integrated with **Capacitor**. To compile and sync your built web files into native mobile environments:
 
-### Sync web assets to Capacitor / همگام‌سازی فایل‌های وب با خازن:
+### Sync web assets to Capacitor:
 ```bash
 npx cap sync
 ```
 
-### Compile Android APK on GitHub Actions / ساخت فایل اندروید روی گیت‌هاب:
+### Compile Android APK on GitHub Actions:
 The repository is equipped with a GitHub Action workflow `.github/workflows/android.yml`. When you commit and push your changes to the `main` branch, GitHub will automatically:
 1. Fetch and compile your modular CSS/JS files.
 2. Setup Java, Gradle, and Android SDK.
@@ -111,17 +98,12 @@ The repository is equipped with a GitHub Action workflow `.github/workflows/andr
 
 ---
 
-## 🤝 Contributing / توسعه و همکاری
+## 🤝 Contributing
 
-### 🇬🇧 English:
 Contributions are highly welcome! Whether it's adding new Markdown parsers, implementing local text-processing models, optimizing the mobile WebView performance, or designing new themes, feel free to open an issue or submit a pull request.
-
-### 🇮🇷 فارسی:
-از مشارکت و همکاری شما در توسعه‌ی این ابزار استقبال می‌شود. فرقی نمی‌کند که به دنبال اضافه کردن ویژگی‌های جدید به مارک‌داون هستید، تم‌های جدیدی طراحی کرده‌اید یا قصد بهینه‌سازی عملکرد روی دستگاه‌های اندرویدی را دارید؛ لطفاً درخواست‌های خود را از طریق بخش Issues یا Pull Requests با ما در میان بگذارید.
 
 ---
 
-## 📄 License / لایسنس
+## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-```
