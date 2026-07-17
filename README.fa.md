@@ -1,5 +1,4 @@
 
-```markdown
 # ⚡ محیط کاری متون هوش مصنوعی (Text AI)
 
 [🇬🇧 **English / انگلیسی**](README.md)
