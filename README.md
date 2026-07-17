@@ -1,4 +1,4 @@
-```markdown
+
 # ⚡ Text AI Workspace
 
 [🇮🇷 **Persian / فارسی**](README.fa.md)
