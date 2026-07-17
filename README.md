@@ -1,7 +1,8 @@
-
 # ⚡ Text AI Workspace
 
-[🇮🇷 **Persian / فارسی**](README.fa.md)
+[🇮🇷 **Persian / فارسی**](README.fa.md) | [🚀 ** دمو زنده**](https://abasasdzadh.github.io/text-ai/)
+
+
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Build Status](https://img.shields.io/github/actions/workflow/status/abasasdzadh/text-ai/android.yml?branch=main&label=Android%20Build)](https://github.com/abasasdzadh/text-ai/actions)
