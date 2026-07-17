@@ -2,57 +2,56 @@ name: Build Android APK
 
 on:
   push:
-    branches: [ "main", "master" ] # نام برنچ خود را در صورت نیاز اصلاح کنید
+    branches: [ "main", "master" ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      # ۱. دریافت کدهای پروژه از گیت‌هاب
       - name: Checkout Source
         uses: actions/checkout@v4
 
-      # ۲. راه‌اندازی جاوا برای بیلد اندروید
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: '17'
 
-      # ۳. راه‌اندازی Node.js برای ابزارهای فرانت‌اند
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
 
-      # ۴. نصب کتابخانه‌ها و وابستگی‌های پروژه
       - name: Install Dependencies
         run: npm install
 
-      # ۵. بیلد کردن فایل‌های وب (ایجاد پوشه www با مسیرهای نسبی)
+      # الف) نصب ابزار بومی و خودکار تولید آیکون‌های اندروید
+      - name: Install Capacitor Assets Tool
+        run: npm install -D @capacitor/assets
+
       - name: Build Web App
         run: npm run build
 
-      # ۶. اضافه کردن خودکار پلتفرم اندروید در صورت عدم وجود پوشه
       - name: Add Android Platform if missing
         run: |
           if [ ! -d "android" ]; then
             npx cap add android
           fi
 
-      # ۷. همگام‌سازی فایل‌های وب بیلد شده با اندروید
+      # ب) تبدیل خودکار تک تصویر آپلود شده به آیکون‌های اندروید در تمام ابعاد استاندارد
+      - name: Generate Native Android Icons
+        run: npx capacitor-assets generate --android
+
       - name: Sync Capacitor
         run: npx cap sync android
 
-      # ۸. بیلد نهایی و ساخت فایل نصب اندروید (APK)
       - name: Build Android APK
         run: |
           cd android
           chmod +x gradlew
           ./gradlew assembleDebug
 
-      # ۹. آپلود فایل نهایی بیلد شده جهت دانلود شما
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
