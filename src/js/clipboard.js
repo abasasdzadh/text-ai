@@ -64,8 +64,12 @@ export function copyInput() {
     showToast('کپی شد'); 
 }
 
+/* اصلاح دکمه پاک‌کن: پاکسازی کامل فیلد ورودی، بخش خروجی و حذف سشن قبل از حافظه موقت */
 export function clearInput() { 
     document.getElementById('mainInput').value = ''; 
+    document.getElementById('output').innerHTML = ''; // پاکسازی کامل رندرهای قبلی برای جلوگیری از باقی ماندن بمب ارور
+    localStorage.removeItem('ai_last_session'); // حذف کامل کش سشن قبلی
+    showToast('پاکسازی شد');
 }
 
 export function copyRaw(btn) { 

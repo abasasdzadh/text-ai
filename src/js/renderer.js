@@ -1,24 +1,25 @@
 import { showToast } from './utils.js';
 import { copyRaw, downloadRaw } from './clipboard.js';
 
+// پیکربندی و سفارشی‌سازی Marked جهت خروجی کدهای Mermaid به صورت ۱۰۰٪ خالص و بدون خطای تبدیل کاراکترها
+const renderer = new marked.Renderer();
+renderer.code = function(code, lang) {
+    if (lang === 'mermaid') {
+        return `<div class="mermaid">${code}</div>`; // انتقال مستقیم متن خالص به تگ مِرمید
+    }
+    return `<pre><code class="language-${lang}">${code}</code></pre>`;
+};
+marked.use({ renderer });
+
 export function render(text) {
     const out = document.getElementById('output');
     out.innerHTML = marked.parse(text);
     
-    // رمزگشایی کاراکترهای اسکیپ شده در کدهای مِرمید (مانند <- و ->)
-    function decodeHtml(html) {
-        const txt = document.createElement('textarea');
-        txt.innerHTML = html;
-        return txt.value;
-    }
-    
-    // جداسازی کدهایی با ساختار مِرمید (language-mermaid) و تبدیل آنها به کامپوننت زنده
-    document.querySelectorAll('pre code.language-mermaid').forEach(codeEl => {
-        const pre = codeEl.parentNode;
-        const mermaidDiv = document.createElement('div');
-        mermaidDiv.className = 'mermaid';
-        mermaidDiv.innerText = decodeHtml(codeEl.innerHTML); // رمزگشایی کامل جهت جلوگیری از خطای بمب مِرمید
-        pre.parentNode.replaceChild(mermaidDiv, pre);
+    // یافتن تگ‌های li حاوی چک‌باکس و اختصاص کلاس اختصاصی جهت حذف دایره بالت در انواع گوشی‌ها
+    out.querySelectorAll('li').forEach(li => {
+        if (li.querySelector('input[type="checkbox"]')) {
+            li.classList.add('task-list-item');
+        }
     });
     
     // هماهنگ‌سازی و زیباسازی کادرهای کد معمولی و ابزارها
