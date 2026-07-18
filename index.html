@@ -15,22 +15,32 @@
     <!-- Link modular CSS -->
     <link rel="stylesheet" href="src/css/styles.css">
     
-    <!-- External Assets -->
-    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" id="prism-theme" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    <!-- Vazirmatn Font (Persian) -->
+    <link href="node_modules/vazirmatn/Vazirmatn-font-face.css" rel="stylesheet">
     
-    <!-- منابع پیش‌نیاز موتور رندر فرمول‌های ریاضی KaTeX -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css">
+    
+    <!-- Prism Theme -->
+    <link rel="stylesheet" id="prism-theme" href="node_modules/prismjs/themes/prism-tomorrow.min.css">
+    
+    <!-- KaTeX CSS and JS -->
+    <link rel="stylesheet" href="node_modules/katex/dist/katex.min.css">
+    <script src="node_modules/katex/dist/katex.min.js"></script>
+    <script src="node_modules/katex/dist/contrib/auto-render.min.js"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
-    <!-- کتابخانه مِرمید جهت رسم خودکار فلوچارت‌ها و دیاگرام‌های متنی -->
-    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Marked -->
+    <script src="node_modules/marked/marked.min.js"></script>
+    
+    <!-- Prism -->
+    <script src="node_modules/prismjs/prism.min.js"></script>
+    <script src="node_modules/prismjs/plugins/autoloader/prism-autoloader.min.js"></script>
+    
+    <!-- Mermaid -->
+    <script src="node_modules/mermaid/dist/mermaid.min.js"></script>
+    
+    <!-- SweetAlert2 -->
+    <script src="node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
 </head>
 <body>
 
@@ -39,15 +49,15 @@
     <!-- Sidebar: History -->
     <aside id="sidebar" class="closed">
         <div class="sidebar-header">
-            <h3 style="margin: 0; font-size: 16px;"><i class="fas fa-clock-rotate-left"></i> تاریخچه </h3>
-            <button class="btn" onclick="toggleSidebar()"><i class="fas fa-times"></i></button>
+            <h3 style="margin: 0; font-size: 16px;"><i class="fa fa-history"></i> تاریخچه </h3>
+            <button class="btn" onclick="toggleSidebar()"><i class="fa fa-times"></i></button>
         </div>
         <div class="history-container" id="historyList">
             <!-- Items injected by JS -->
         </div>
         <div style="padding: 15px; border-top: 1px solid var(--border);">
             <button class="btn" style="width: 100%; justify-content: center;" onclick="clearAllHistory()">
-                <i class="fas fa-trash-sweep"></i> پاکسازی کامل تاریخچه
+                <i class="fa fa-trash"></i> پاکسازی کامل تاریخچه
             </button>
         </div>
     </aside>
@@ -56,13 +66,13 @@
     <main>
         <header>
             <div style="display: flex; align-items: center; gap: 15px;">
-                <div class="mobile-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></div>
+                <div class="mobile-toggle" onclick="toggleSidebar()"><i class="fa fa-bars"></i></div>
                 <h2 style="margin: 0; font-size: 18px; color: var(--primary);">textai</h2>
             </div>
             <div class="action-group">
                 <!-- دکمه جدید راست‌چین / چپ‌چین کردن تراز کلی برنامه -->
-                <button class="btn" onclick="toggleDirection()" id="dirBtn"><i class="fas fa-align-left"></i></button>
-                <button class="btn" onclick="toggleTheme()" id="themeBtn"><i class="fas fa-moon"></i></button>
+                <button class="btn" onclick="toggleDirection()" id="dirBtn"><i class="fa fa-align-left"></i></button>
+                <button class="btn" onclick="toggleTheme()" id="themeBtn"><i class="fa fa-moon-o"></i></button>
             </div>
         </header>
 
@@ -72,12 +82,12 @@
                     <textarea id="mainInput" placeholder="خروجی جمینای را اینجا پیست کنید..."></textarea>
                     <div class="editor-actions">
                         <div class="action-group">
-                            <button class="btn" onclick="copyInput()" title="کپی کردن متن"><i class="far fa-copy"></i></button>
-                            <button class="btn" onclick="pasteInput()" title="چسباندن متن"><i class="far fa-clipboard"></i></button>
-                            <button class="btn" onclick="clearInput()" title="پاک کردن متن"><i class="fas fa-eraser"></i></button>
+                            <button class="btn" onclick="copyInput()" title="کپی کردن متن"><i class="fa fa-copy"></i></button>
+                            <button class="btn" onclick="pasteInput()" title="چسباندن متن"><i class="fa fa-clipboard"></i></button>
+                            <button class="btn" onclick="clearInput()" title="پاک کردن متن"><i class="fa fa-eraser"></i></button>
                         </div>
                         <button class="btn btn-primary" onclick="processAndSave()">
-                            <i class="fas fa-bolt"></i> پردازش و نمایش
+                            <i class="fa fa-bolt"></i> پردازش و نمایش
                         </button>
                     </div>
                 </div>
