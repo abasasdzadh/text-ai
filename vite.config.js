@@ -8,6 +8,13 @@ export default defineConfig({
   },
   build: {
     outDir: 'www',
-    emptyOutDir: true
+    emptyOutDir: true,
+    assetsDir: 'assets',
+    rollupOptions: {
+      input: 'index.html',
+      output: {
+        dir: 'www'
+      }
+    }
   }
 });
