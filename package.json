@@ -1,25 +1,18 @@
 {
   "name": "text-ai-app",
   "version": "1.0.0",
-  "description": "Modular AI text & code workspace with Markdown, KaTeX math, task lists, isolated HTML preview, and Mermaid diagram rendering. Runs offline (PWA) and natively via Capacitor.",
+  "description": "Text AI Workspace",
   "main": "index.html",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview",
-    "install-deps": "npm install"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@capacitor/android": "^6.0.0",
     "@capacitor/cli": "^6.0.0",
-    "@capacitor/core": "^6.0.0",
-    "katex": "^0.16.11",
-    "marked": "^4.3.0",
-    "prismjs": "^1.29.0",
-    "mermaid": "^10.0.0",
-    "sweetalert2": "^11.0.0",
-    "font-awesome": "^4.7.0"
+    "@capacitor/core": "^6.0.0"
   },
   "devDependencies": {
     "vite": "^5.0.0"
