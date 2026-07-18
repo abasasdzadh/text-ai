@@ -15,32 +15,47 @@
     <!-- Link modular CSS -->
     <link rel="stylesheet" href="src/css/styles.css">
     
-    <!-- Vazirmatn Font (Persian) -->
-    <link href="node_modules/vazirmatn/Vazirmatn-font-face.css" rel="stylesheet">
+    <!-- فونت فارسی Vazirmatn (محلی) -->
+    <style>
+        @font-face {
+            font-family: 'Vazirmatn';
+            src: url('assets/fonts/Vazirmatn-Regular.woff2') format('woff2'),
+                 url('assets/fonts/Vazirmatn-Regular.woff') format('woff');
+            font-weight: 400;
+        }
+        @font-face {
+            font-family: 'Vazirmatn';
+            src: url('assets/fonts/Vazirmatn-Bold.woff2') format('woff2'),
+                 url('assets/fonts/Vazirmatn-Bold.woff') format('woff');
+            font-weight: 700;
+        }
+    </style>
     
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css">
+    <!-- Font Awesome (محلی) -->
+    <link rel="stylesheet" href="assets/vendor/font-awesome/css/font-awesome.min.css">
     
-    <!-- Prism Theme -->
-    <link rel="stylesheet" id="prism-theme" href="node_modules/prismjs/themes/prism-tomorrow.min.css">
+    <!-- Prism Theme (محلی) -->
+    <link rel="stylesheet" id="prism-theme" href="assets/vendor/prismjs/themes/prism-tomorrow.min.css">
     
-    <!-- KaTeX CSS and JS -->
-    <link rel="stylesheet" href="node_modules/katex/dist/katex.min.css">
-    <script src="node_modules/katex/dist/katex.min.js"></script>
-    <script src="node_modules/katex/dist/contrib/auto-render.min.js"></script>
+    <!-- KaTeX CSS (محلی) -->
+    <link rel="stylesheet" href="assets/vendor/katex/katex.min.css">
+    
+    <!-- KaTeX JS (محلی) -->
+    <script src="assets/vendor/katex/katex.min.js"></script>
+    <script src="assets/vendor/katex/auto-render.min.js"></script>
 
-    <!-- Marked -->
-    <script src="node_modules/marked/marked.min.js"></script>
+    <!-- Marked (محلی) -->
+    <script src="assets/vendor/marked/marked.min.js"></script>
     
-    <!-- Prism -->
-    <script src="node_modules/prismjs/prism.min.js"></script>
-    <script src="node_modules/prismjs/plugins/autoloader/prism-autoloader.min.js"></script>
+    <!-- Prism (محلی) -->
+    <script src="assets/vendor/prismjs/prism.min.js"></script>
+    <script src="assets/vendor/prismjs/plugins/autoloader/prism-autoloader.min.js"></script>
     
-    <!-- Mermaid -->
-    <script src="node_modules/mermaid/dist/mermaid.min.js"></script>
+    <!-- Mermaid (محلی) -->
+    <script src="assets/vendor/mermaid/mermaid.min.js"></script>
     
-    <!-- SweetAlert2 -->
-    <script src="node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
+    <!-- SweetAlert2 (محلی) -->
+    <script src="assets/vendor/sweetalert2/sweetalert2.all.min.js"></script>
 </head>
 <body>
 
